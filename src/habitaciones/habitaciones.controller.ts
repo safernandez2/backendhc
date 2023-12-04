@@ -53,10 +53,35 @@ export class HabitacionesController {
     return this.habitacionesService.findById(habitacionid);
   }
 
+
   @Put(':id')
-  async update(@Param('id') habitacionid: number, @Body() habitacion: Habitacion): Promise<Habitacion> {
-    return this.habitacionesService.update(habitacionid, habitacion);
+@UseInterceptors(
+  FileInterceptor('imagenUrl', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, callback) => {
+        const randomName = Array(32).fill(null).map(() => Math.round(Math.random() * 16).toString(16)).join('');
+        return callback(null, `${randomName}${extname(file.originalname)}`);
+      },
+    }),
+  }),
+)
+async update(@Param('id') habitacionid: number, @UploadedFile() nuevaImagen: Express.Multer.File, @Body() habitacion: Habitacion): Promise<Habitacion> {
+  try {
+    if (nuevaImagen) {
+      const result = await cloudinary.uploader.upload(nuevaImagen.path);
+      habitacion.imagenUrl = result.secure_url;
+    }
+
+    await this.habitacionesService.update(habitacionid, habitacion);
+    return this.habitacionesService.findById(habitacionid);
+  } catch (error) {
+    console.error('Error al editar habitación', error);
+    throw new InternalServerErrorException('Error interno del servidor');
   }
+}
+
+
 
   @Delete(':id')
   async delete(@Param('id') habitacionid: number): Promise<void> {
