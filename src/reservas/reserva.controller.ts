@@ -18,17 +18,17 @@ export class ReservasController {
     return this.reservasService.findById(reservaid);
   }
 
-  @Post('add')
+  @Post()
   async create(@Body() reserva: Reserva): Promise<Reserva> {
     return this.reservasService.create(reserva);
   }
 
-  @Put('edit/:id')
+  @Put(':id')
   async update(@Param('id') reservaid: number, @Body() reserva: Reserva): Promise<Reserva> {
     return this.reservasService.update(reservaid, reserva);
   }
 
-  @Delete('delete/:id')
+  @Delete(':id')
   async delete(@Param('id') reservaid: number): Promise<void> {
     return this.reservasService.delete(reservaid);
   }
