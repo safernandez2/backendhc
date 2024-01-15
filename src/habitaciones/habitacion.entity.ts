@@ -15,7 +15,7 @@ export class Habitacion {
   @Column({ name: 'capacidad' })
   capacidad: number;
 
-  @Column({default: true})
+  @Column({default: false})
   disponible: boolean;
 
   @Column({name:'imagen_url', nullable:true,type: 'text'})

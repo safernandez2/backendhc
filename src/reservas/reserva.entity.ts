@@ -2,7 +2,6 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Habitacion } from '../habitaciones/habitacion.entity';  // Ajusta según la estructura de tu proyecto
-import { EstadoReserva } from '../estadoreserva/estadoreserva.entity';
 
 @Entity('reservas')
 export class Reserva {
@@ -24,6 +23,9 @@ export class Reserva {
   @Column({ name: 'fecha_fin', type: 'timestamp' })
   fechaFin: Date;
   
+  @Column({ name: 'estado', default: 'Pendiente' })  // Ajusta según tus necesidades
+  estado: string;
+
   @ManyToOne(() => Habitacion, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'habitacionid' })
   habitacion: Habitacion;

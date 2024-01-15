@@ -17,6 +17,10 @@ export class ReservasController {
   async getById(@Param('id') reservaid: number): Promise<Reserva> {
     return this.reservasService.findById(reservaid);
   }
+  @Get('fechasReservadas/:habitacionid')
+  async getFechasReservadas(@Param('habitacionid') habitacionid: number): Promise<{ fechaInicio: string, fechaFin: string }[]> {
+    return this.reservasService.getFechasReservadas(habitacionid);
+  }
 
   @Post()
   async create(@Body() reserva: Reserva): Promise<Reserva> {
@@ -32,5 +36,6 @@ export class ReservasController {
   async delete(@Param('id') reservaid: number): Promise<void> {
     return this.reservasService.delete(reservaid);
   }
+  
 
 }
