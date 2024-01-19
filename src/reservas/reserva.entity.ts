@@ -26,6 +26,9 @@ export class Reserva {
   @Column({ name: 'estado', default: 'Pendiente' })  // Ajusta según tus necesidades
   estado: string;
 
+  @Column({ name: 'numero_cliente'})
+  numeroCliente: string;
+
   @ManyToOne(() => Habitacion, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'habitacionid' })
   habitacion: Habitacion;
